@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokédex</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="pokedex-container">
+        <h1 class="title">Pokédex</h1>
+
+        <form method="get">
+            <input type="text" name="pokemon" placeholder="Enter Pokémon name or ID" required>
+            <button type="submit">Search</button>
+        </form>
+
+        {% if data %}
+            <!-- Left screen area: Name and Num -->
+            <div class="left-info">
+                <h2>{{ data.name }}</h2>
+                <div class="num">num. {{ data.id }}</div>
+            </div>
+
+            <!-- Right top screen: Image -->
+            <div class="right-image">
+                <img src="{{ data.sprite }}" alt="{{ data.name }}">
+            </div>
+
+            <!-- Right bottom screen: Stats + ID + Abilities -->
+            <div class="right-stats">
+                <p><strong>Types:</strong> {{ data.types | join(', ') }}</p>
+                <p><strong>Abilities:</strong> {{ data.abilities | join(', ') }}</p>
+
+                <h3>Stats:</h3>
+                <ul>
+                {% for stat, value in data.stats.items() %}
+                    <li>{{ stat }}: {{ value }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% elif pokemon %}
+            <p class="welcome-msg">Pokémon not found!</p>
+        {% else %}
+            <p class="welcome-msg">Welcome to the Pokédex! Type a Pokémon name or ID above to begin.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
